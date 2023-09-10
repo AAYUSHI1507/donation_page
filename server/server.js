@@ -1,30 +1,63 @@
 const express = require("express");
+const Razorpay = require("razorpay");
 const app = express();
 const bodyParser = require("body-parser");
 
 // Use bodyParser middleware to parse JSON request bodies
 app.use(bodyParser.json());
 
-// Route for creating an order
-app.post("/create-order", (req, res) => {
-  // Implement Razorpay order creation logic here
-  // Create an order with Razorpay
-  razorpay.orders.create(orderData, (error, order) => {
-    if (error) {
-      console.error("Error creating order:", error);
-      res.status(500).json({ error: "Unable to create order" });
-    } else {
-      // Send the order ID to the client for payment initiation
-      res.json(order); // Return the order ID to the client
-    }
-  });
+var instance = new Razorpay({
+  key_id: "your_key_id",
+  key_secret: "your_key_secret",
+});
 
-  
-  // Return the order ID to the client
-  const order = {
-    id: "YOUR_ORDER_ID", // Replace with your server-generated Order ID
+// Route for creating an order
+app.post("/create/orderId", (req, res) => {
+  // Create an order with Razorpay
+  var options = {
+    amount: req.body.amount,
+    currency: "INR",
+    receipt: "receipt#1",
+    notes: {
+      key1: "value3",
+      key2: "value2",
+    },
   };
-  res.json(order);
+
+  instance.orders.create(options, function (err, order) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Order creation failed" });
+    }
+    res.status(200).json(order);
+  });
+});
+
+// Handle the Razorpay callback
+app.post("/razorpay-callback", (req, res) => {
+  const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
+
+  // Implement Razorpay webhook signature verification here
+  // Replace 'your_webhook_secret' with your actual webhook secret
+  const webhookSecret = "your_webhook_secret";
+
+  const isValidSignature = validateWebhookSignature(
+    JSON.stringify(req.body),
+    razorpay_signature,
+    webhookSecret
+  );
+
+  if (!isValidSignature) {
+    console.error("Invalid signature");
+    return res.status(400).json({ error: "Invalid signature" });
+  }
+
+  // Payment verification logic goes here
+
+  // Save payment information to the database
+
+  // Send a success response
+  res.status(200).send("Payment successful");
 });
 
 const PORT = process.env.PORT || 3000;

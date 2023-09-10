@@ -1,8 +1,8 @@
 const Razorpay = require('razorpay'); // Use the Razorpay Node.js SDK
 
 // Initialize Razorpay with your API key and secret
-const razorpayApiKey = 'YOUR_RAZORPAY_API_KEY';
-const razorpayApiSecret = 'YOUR_RAZORPAY_API_SECRET';
+const razorpayApiKey = 'rzp_test_88DlPF9rFIOul7';
+const razorpayApiSecret = 'NXCPz4dA00CWDNyfR6sGgN4z';
 const razorpay = new Razorpay({
     key_id: razorpayApiKey,
     key_secret: razorpayApiSecret,
