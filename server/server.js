@@ -7,61 +7,49 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 var instance = new Razorpay({
-  key_id: "your_key_id",
-  key_secret: "your_key_secret",
+  key_id: "rzp_test_88DlPF9rFIOul7",
+  key_secret: "NXCPz4dA00CWDNyfR6sGgN4z",
 });
+
+app.get("/", (req, res) => {
+  res.sendFile("donation.html", { root: __dirname });
+});
+console.log("the ser ver has been");
 
 // Route for creating an order
 app.post("/create/orderId", (req, res) => {
-  // Create an order with Razorpay
+  console.log("create orderId request", req.body);
   var options = {
-    amount: req.body.amount,
+    amount: req.body.amount, // amount in the smallest currency unit
     currency: "INR",
-    receipt: "receipt#1",
-    notes: {
-      key1: "value3",
-      key2: "value2",
-    },
+    receipt: "order_rcptid_11",
   };
-
   instance.orders.create(options, function (err, order) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Order creation failed" });
-    }
-    res.status(200).json(order);
+    console.log(order);
+    res.send({ orderId: order.id });
   });
 });
 
-// Handle the Razorpay callback
-app.post("/razorpay-callback", (req, res) => {
-  const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
+// app.post("/api/payment/verify", (req, res) => {
+//   let generated_signature = hmac_sha256(
+//     order_id + "|" + razorpay_payment_id,
+//     secret
+//   );
 
-  // Implement Razorpay webhook signature verification here
-  // Replace 'your_webhook_secret' with your actual webhook secret
-  const webhookSecret = "your_webhook_secret";
-  
-
-  const isValidSignature = validateWebhookSignature(
-    JSON.stringify(req.body),
-    razorpay_signature,
-    webhookSecret
-  );
-
-  if (!isValidSignature) {
-    console.error("Invalid signature");
-    return res.status(400).json({ error: "Invalid signature" });
-  }
-
-  // Payment verification logic goes here
-
-  // Save payment information to the database
-
-  // Send a success response
-  res.status(200).send("Payment successful");
-});
-
+//   if (generated_signature == razorpay_signature) {
+//     console.log("payment is successful");
+//   }
+//   var {
+//     validatePaymentVerification,
+//     validateWebhookSignature,
+//   } = require("./dist/utils/razorpay-utils");
+//   validatePaymentVerification(
+//     { order_id: razorpayOrderId, payment_id: razorpayPaymentId },
+//     signature,
+//     secret
+//   );
+// });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port http://localhost:${PORT}`);
 });

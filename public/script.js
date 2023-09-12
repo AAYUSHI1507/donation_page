@@ -67,3 +67,14 @@ document.addEventListener("DOMContentLoaded", function () {
   //     });
   // });
 });
+donateButton.onclick = function (e) {
+  const amount = parseFloat(amountInput.value);
+  if (isNaN(amount) || amount <= 0) {
+    alert("Please enter a valid donation amount.");
+    return;
+  }
+  if (isNaN(amount) || amount <= 0 || amount == null || amount == 0) {
+    alert("Please enter a valid donation amount.");
+    return;
+  }
+  `${amount*100}`
