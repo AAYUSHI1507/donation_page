@@ -2,15 +2,65 @@
 <html lang="en">
   <head>
     <!-- Include necessary scripts and stylesheets -->
-
+    <link rel="stylesheet" type="text/css" href="/public/style.css" />
     <!-- <script src="script.js"></script> -->
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Archivo&display=swap");
+      * {
+        padding: 0;
+        margin: 0;
+        font-family: "Archivo", sans-serif;
+      }
+      h1 {
+        height: 50px;
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 40px;
+      }
+      main {
+        display: flex;
+        justify-content: center;   
+        align-items: center;
+        background-color: aqua;
+        height: 70vh;
+        background-image: url('../server/img1.jpg');
+      }
+      section {
+        border: 2px solid black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        min-height: 50vh;
+        overflow-y: hidden;
+        box-shadow: 15px 11px 2px;
+        background-color: yellow;
+      }
+      section h2,
+      p {
+        padding: 20px;
+      }
+      .amount {
+        margin-left: -48px;
+      }
+      button {
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 25px;
+      }
+      input{
+        padding: 10px;
+        width: 30px;
+      }
+    </style>
   </head>
   <body>
     <header>
-      <h1>Donate to Our Cause</h1>
+      <h1>Donate to Save More Trees</h1>
     </header>
-    <main>
+    <main> 
       <section class="donation-section">
         <h2>Make a Donation</h2>
         <p>Select an amount and click the "Donate" button:</p>
@@ -23,7 +73,9 @@
       </section>
     </main>
     <footer>
-      <p>&copy; 2023 Donation Website</p>
+      <p style="text-align: center; position: fixed; top: 94vh; left: 45vh">
+        &copy; 2023 Donation Website
+      </p>
     </footer>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -68,7 +120,8 @@
             currency: "INR",
             name: "AS ENTERPRISES",
             description: "Test Transaction",
-            image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freelogodesign.org%2F&psig=AOvVaw30yOPk9nNlKFo1M9tOmU8G&ust=1694564824710000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCPCoroXoo4EDFQAAAAAdAAAAABAE",
+            image:
+              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freelogodesign.org%2F&psig=AOvVaw30yOPk9nNlKFo1M9tOmU8G&ust=1694564824710000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCPCoroXoo4EDFQAAAAAdAAAAABAE",
             order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             handler: function (response) {
               alert(response.razorpay_payment_id);

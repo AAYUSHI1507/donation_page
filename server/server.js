@@ -14,6 +14,9 @@ var instance = new Razorpay({
 app.get("/", (req, res) => {
   res.sendFile("donation.html", { root: __dirname });
 });
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
 console.log("the ser ver has been");
 
 // Route for creating an order
